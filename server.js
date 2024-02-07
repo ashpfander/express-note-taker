@@ -5,9 +5,6 @@ const path = require('path');
 // Grabs the api.js file's info
 const api = require('./routes/api.js');
 
-// Helper method for generating unique ids
-const uuid = require('./helpers/uuid.js');
-
 // Initializes the use of express.js
 const app = express();
 
@@ -20,6 +17,9 @@ app.use(express.static('public'));
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Send all the requests that begin with /api to the api.js in the routes folder
+app.use('/api', api);
 
 // GET route for notes page
 app.get('/notes', (req, res) =>
