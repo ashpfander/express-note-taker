@@ -2,6 +2,12 @@
 const express = require('express');
 const path = require('path');
 
+// Grabs the api.js file's info
+const api = require('./routes/api.js');
+
+// Helper method for generating unique ids
+const uuid = require('./helpers/uuid.js');
+
 // Initializes the use of express.js
 const app = express();
 
