@@ -54,20 +54,32 @@ api.post('/notes', (req, res) => {
 });
 
 // DELETE Route for deleting a specific note
-// api.delete('/notes/:id', (req, res) => {
-//     const noteId = req.params.id;
-//     fs.readFile(path.join(__dirname, '../db/db.json'))
-//         .then((data) => JSON.parse(data))
-//         .then((json) => {
-//             // Make a new array of all updated notes
-//             const result = json.filter((note) => note.id !== noteId);
+api.delete('/notes/:id', (req, res) => {
+    const noteId = req.params.id;
+    fs.readFile(path.join(__dirname, '../db/db.json'), (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json('Error reading file');
+            return;
+        }
+
+        const json = JSON.parse(data);
+
+        // Make a new array of all updated notes
+        const result = json.filter((note) => note.id !== noteId);
   
-//             // Rewrite new array to the db.json file
-//             fs.writeFile(path.join(__dirname, '../db/db.json'), result);
-  
-//             // Respond to the DELETE request
-//             res.json(`${noteId} has been deleted!`);
-//     });
-// });
+        // Rewrite new array to the db.json file
+        fs.writeFile(path.join(__dirname, '../db/db.json'), JSON.stringify(result), (err) => {
+            if (err) {
+                // Logs error if there is one
+                console.error(err);
+                res.status(500).json('Error deleting note');
+            } else {
+                // Respond to the DELETE request
+                res.json(`${noteId} has been deleted!`);
+            }
+        });
+    });
+});
 
 module.exports = api;
