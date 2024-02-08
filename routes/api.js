@@ -32,7 +32,7 @@ api.post('/notes', (req, res) => {
         const newNote = {
             title,
             text,
-            note_id: uuid(),
+            id: uuid(),
         };
 
         fs.readFile(path.join(__dirname, '../db/db.json'), (err, data) => {
@@ -54,16 +54,16 @@ api.post('/notes', (req, res) => {
 });
 
 // DELETE Route for deleting a specific note
-// api.delete('/notes/:note_id', (req, res) => {
-//     const noteId = req.params.note_id;
+// api.delete('/notes/:id', (req, res) => {
+//     const noteId = req.params.id;
 //     fs.readFile(path.join(__dirname, '../db/db.json'))
 //         .then((data) => JSON.parse(data))
 //         .then((json) => {
 //             // Make a new array of all updated notes
-//             const result = json.filter((note) => note.note_id !== noteId);
+//             const result = json.filter((note) => note.id !== noteId);
   
 //             // Rewrite new array to the db.json file
-//             fs.writeToFile('../db/db.json', result);
+//             fs.writeFile(path.join(__dirname, '../db/db.json'), result);
   
 //             // Respond to the DELETE request
 //             res.json(`${noteId} has been deleted!`);
