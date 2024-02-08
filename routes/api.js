@@ -34,11 +34,22 @@ api.post('/notes', (req, res) => {
             text,
             note_id: uuid,
         };
-  
-        fs.readAndAppend(newNote, '../db/db.json');
-        res.json(`New note has been added!`);
-    } else {
-        res.error('Note has not been added.');
+
+        fs.readFile(path.join(__dirname, '../db/db.json'), (err, data) => {
+            if (err) {
+                // If there's an error, console log error and send a message
+                console.error(err);
+                res.error('Note has not been added. Please try again.');
+            } else {
+                // If all is good, parse the data and add new note to data
+                const allData = JSON.parse(data);
+                allData.push(newNote);
+
+                fs.writeFile(path.join(__dirname, '../db/db.json'), JSON.stringify(allData), (err) =>
+                err ? console.error(err) : res.json('New note has been added!')
+                );
+            }
+        });
     }
 });
 
