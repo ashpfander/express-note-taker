@@ -36,10 +36,15 @@ https://ash-express-note-taker-0c03496eb057.herokuapp.com/
 
 ## Screenshots of Page
 
+Landing page
 ![Landing page](./images/landing-page.png)
+Notes page with existing notes
 ![Notes page with existing notes](./images/notes-page.png)
+Adding a new note
 ![Adding a note](./images/adding-new-note.png)
+New note added to existing notes area
 ![Note added to existing notes](./images/new-note-added.png)
+New note having been deleted
 ![Note having been deleted](./images/note-deleted.png)
 
 ## Table of Contents
