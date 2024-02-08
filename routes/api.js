@@ -9,22 +9,15 @@ const uuid = require('../helpers/uuid.js');
 
 // GET Route for retrieving all the data from db.json file and return all saved notes
 api.get('/notes', (req, res) => {
-    fs.readFile(path.join(__dirname, '../db/db.json'), 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, '../db/db.json'), (err, data) => {
         if (err) {
-          // If there's an error, it returns an error message
-          console.error(err);
-          return res.status(500).json({ error: 'There has been an error' });
-        }
-    
-        try {
-          // Parse the file contents as JSON
-          const notes = JSON.parse(data);
-          // Send the notes as the response
-          res.json(notes);
-        } catch (err) {
-          // If there's an error, it returns an error message
-          console.error(err);
-          return res.status(500).json({ error: 'There has been an error' });
+            // If there's an error, console log error and send a message
+            console.error(err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            // If all is good, parse the data and send it as a response
+            const notes = JSON.parse(data);
+            res.json(notes);
         }
     });
 });
@@ -50,20 +43,20 @@ api.post('/notes', (req, res) => {
 });
 
 // DELETE Route for deleting a specific note
-api.delete('/notes/:note_id', (req, res) => {
-    const noteId = req.params.note_id;
-    fs.readFile(path.join(__dirname, '../db/db.json'))
-        .then((data) => JSON.parse(data))
-        .then((json) => {
-            // Make a new array of all updated notes
-            const result = json.filter((note) => note.note_id !== noteId);
+// api.delete('/notes/:note_id', (req, res) => {
+//     const noteId = req.params.note_id;
+//     fs.readFile(path.join(__dirname, '../db/db.json'))
+//         .then((data) => JSON.parse(data))
+//         .then((json) => {
+//             // Make a new array of all updated notes
+//             const result = json.filter((note) => note.note_id !== noteId);
   
-            // Rewrite new array to the db.json file
-            fs.writeToFile('../db/db.json', result);
+//             // Rewrite new array to the db.json file
+//             fs.writeToFile('../db/db.json', result);
   
-            // Respond to the DELETE request
-            res.json(`${noteId} has been deleted!`);
-    });
-});
+//             // Respond to the DELETE request
+//             res.json(`${noteId} has been deleted!`);
+//     });
+// });
 
 module.exports = api;
