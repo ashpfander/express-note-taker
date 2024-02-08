@@ -32,7 +32,7 @@ api.post('/notes', (req, res) => {
         const newNote = {
             title,
             text,
-            note_id: uuid,
+            note_id: uuid(),
         };
 
         fs.readFile(path.join(__dirname, '../db/db.json'), (err, data) => {
